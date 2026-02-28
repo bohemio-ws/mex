@@ -2,366 +2,378 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MEX - Morales Excavación | Sistema Operativo 360°</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; }
+        body { font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         .mex-amber { background-color: #f1b136; }
         .mex-amber-text { color: #f1b136; }
         .bg-mex-dark { background-color: #0a0a0a; }
-        .sidebar-item.active { background-color: #f1b136; color: #000; font-weight: 800; border-radius: 12px; }
-        .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
+        
+        /* Navegación activa */
+        .nav-item.active { color: #f1b136; }
+        .nav-item.active i { transform: translateY(-5px); color: #f1b136; }
+        
+        .tab-content { display: none; animation: fadeIn 0.3s ease-out; }
         .tab-content.active { display: block; }
+        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .card-shadow { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-        .machine-draw { background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%); border: 2px solid #f1b136; transition: all 0.3s ease; }
-        .machine-draw:hover { border-color: #000; transform: translateY(-5px); }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #1a1a1a; }
+        
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        
+        .machine-draw { 
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%); 
+            border: 2px solid #f1b136; 
+        }
+
+        /* Ajustes específicos para móvil */
+        @media (max-width: 768px) {
+            .desktop-sidebar { display: none; }
+            .mobile-nav { display: flex; }
+            .main-content { padding-bottom: 80px; } /* Espacio para la barra inferior */
+            .header-desktop { padding: 1rem; height: auto; flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+            .header-desktop h2 { font-size: 1.5rem; }
+            .grid-responsive { grid-template-cols: 1fr; }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-nav { display: none; }
+            .desktop-sidebar { display: flex; }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #f1b136; border-radius: 10px; }
     </style>
 </head>
-<body class="bg-gray-100 text-slate-900 h-screen overflow-hidden">
+<body class="bg-gray-50 text-slate-900 h-screen overflow-hidden flex flex-col md:flex-row">
 
-    <div class="flex h-full">
-        <!-- BARRA LATERAL -->
-        <aside class="w-80 bg-mex-dark text-white flex flex-col p-6 shadow-2xl z-50">
-            <div class="mb-10 text-center">
-                <div class="bg-white p-4 rounded-3xl mb-4 shadow-xl border-4 border-amber-500">
-                    <div class="text-black font-black text-4xl tracking-tighter">
-                        <span class="text-amber-500">M</span>E<span class="text-amber-500">X</span>
-                    </div>
-                </div>
-                <p class="text-[10px] text-amber-500 font-black tracking-[0.3em] uppercase">Control Operativo IA</p>
-            </div>
-
-            <nav class="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
-                <p class="text-[10px] text-zinc-600 font-black uppercase mb-3 px-4">Gestión Central</p>
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-item active w-full flex items-center gap-4 px-5 py-3.5 text-sm transition-all hover:bg-zinc-800">
-                    <i class="fa-solid fa-gauge-high"></i> Panel General
-                </button>
-                <button onclick="switchTab('staff')" id="nav-staff" class="sidebar-item w-full flex items-center gap-4 px-5 py-3.5 text-sm text-zinc-400 hover:text-white transition-all">
-                    <i class="fa-solid fa-users-gear"></i> Equipo Humano
-                </button>
-                <button onclick="switchTab('recambios')" id="nav-recambios" class="sidebar-item w-full flex items-center gap-4 px-5 py-3.5 text-sm text-zinc-400 hover:text-white transition-all">
-                    <i class="fa-solid fa-boxes-stacked"></i> Almacén Recambios
-                </button>
-
-                <p class="text-[10px] text-zinc-600 font-black uppercase mt-8 mb-3 px-4">Control de Campo</p>
-                <button onclick="switchTab('ordenes')" id="nav-ordenes" class="sidebar-item w-full flex items-center gap-4 px-5 py-3.5 text-sm text-zinc-400 hover:text-white transition-all">
-                    <i class="fa-solid fa-file-contract"></i> Órdenes de Trabajo
-                </button>
-                <button onclick="switchTab('registros')" id="nav-registros" class="sidebar-item w-full flex items-center gap-4 px-5 py-3.5 text-sm text-zinc-400 hover:text-white transition-all">
-                    <i class="fa-solid fa-clock-rotate-left"></i> Registro H / KM
-                </button>
-            </nav>
-
-            <div class="mt-8 p-4 bg-zinc-900 rounded-3xl border border-zinc-800">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center font-black text-black text-xs tracking-tighter">MEX</div>
-                    <div class="overflow-hidden">
-                        <p class="text-xs font-black truncate">Kenny García</p>
-                        <p class="text-[9px] text-amber-500 font-bold uppercase tracking-widest italic">Supervisor</p>
-                    </div>
+    <!-- BARRA LATERAL (SOLO ESCRITORIO) -->
+    <aside class="desktop-sidebar w-72 bg-mex-dark text-white flex-col p-6 shadow-2xl z-50 overflow-y-auto">
+        <div class="mb-10 text-center">
+            <div class="bg-white p-3 rounded-2xl mb-4 border-4 border-amber-500">
+                <div class="text-black font-black text-3xl tracking-tighter">
+                    <span class="text-amber-500">M</span>E<span class="text-amber-500">X</span>
                 </div>
             </div>
-        </aside>
+            <p class="text-[10px] text-amber-500 font-black tracking-[0.3em] uppercase">Control Operativo IA</p>
+        </div>
 
-        <!-- CONTENIDO PRINCIPAL -->
-        <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
-            <header class="h-24 bg-white border-b px-12 flex items-center justify-between shadow-sm flex-shrink-0">
-                <div>
-                    <h2 id="tab-title" class="text-3xl font-black uppercase text-zinc-900 tracking-tighter">Panel General</h2>
-                    <p id="tab-subtitle" class="text-[11px] font-bold text-zinc-400 uppercase tracking-[0.2em]">Morales Excavación S.L. - Control Individual</p>
-                </div>
-                <div class="flex gap-4">
-                    <button onclick="openModal()" class="bg-black text-white hover:bg-amber-500 hover:text-black font-black px-8 py-4 rounded-2xl transition-all shadow-2xl text-[11px] uppercase tracking-widest">
-                        <i class="fa-solid fa-plus-circle mr-2"></i> Nuevo Parte Digital
-                    </button>
-                </div>
-            </header>
+        <nav class="flex-1 space-y-2">
+            <p class="text-[10px] text-zinc-600 font-black uppercase mb-3 px-4">Gestión</p>
+            <button onclick="switchTab('dashboard')" class="nav-btn-dashboard sidebar-item w-full flex items-center gap-4 px-5 py-3 text-sm rounded-xl transition-all hover:bg-zinc-800">
+                <i class="fa-solid fa-gauge-high"></i> Resumen
+            </button>
+            <button onclick="switchTab('staff')" class="nav-btn-staff sidebar-item w-full flex items-center gap-4 px-5 py-3 text-sm text-zinc-400 hover:text-white transition-all">
+                <i class="fa-solid fa-users-gear"></i> Equipo Humano
+            </button>
+            <button onclick="switchTab('recambios')" class="nav-btn-recambios sidebar-item w-full flex items-center gap-4 px-5 py-3 text-sm text-zinc-400 hover:text-white transition-all">
+                <i class="fa-solid fa-boxes-stacked"></i> Almacén
+            </button>
+            <button onclick="switchTab('ordenes')" class="nav-btn-ordenes sidebar-item w-full flex items-center gap-4 px-5 py-3 text-sm text-zinc-400 hover:text-white transition-all">
+                <i class="fa-solid fa-file-contract"></i> Órdenes
+            </button>
+            <button onclick="switchTab('registros')" class="nav-btn-registros sidebar-item w-full flex items-center gap-4 px-5 py-3 text-sm text-zinc-400 hover:text-white transition-all">
+                <i class="fa-solid fa-clock-rotate-left"></i> Registros H/KM
+            </button>
+        </nav>
+    </aside>
 
-            <div class="flex-1 overflow-y-auto p-12 custom-scrollbar">
-                
-                <!-- TAB: DASHBOARD -->
-                <div id="tab-dashboard" class="tab-content active space-y-10">
-                    <div class="grid grid-cols-4 gap-8">
-                        <div class="bg-white p-8 rounded-[2.5rem] card-shadow border border-slate-100">
-                            <p class="text-[10px] font-black text-zinc-400 uppercase mb-3">Maquinistas Activos</p>
-                            <p class="text-5xl font-black italic">5</p>
-                        </div>
-                        <div class="bg-white p-8 rounded-[2.5rem] card-shadow border border-slate-100">
-                            <p class="text-[10px] font-black text-zinc-400 uppercase mb-3">Camioneros Ruta</p>
-                            <p class="text-5xl font-black italic">4</p>
-                        </div>
-                        <div class="bg-white p-8 rounded-[2.5rem] card-shadow border border-slate-100 border-l-[10px] border-amber-500">
-                            <p class="text-[10px] font-black text-zinc-400 uppercase mb-3">Supervisión</p>
-                            <p class="text-5xl font-black italic text-amber-500">1</p>
-                        </div>
-                        <div class="bg-zinc-900 p-8 rounded-[2.5rem] shadow-2xl text-white">
-                            <p class="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-3">Eficiencia Operativa</p>
-                            <p class="text-4xl font-black italic text-green-400">ÓPTIMA</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-10">
-                        <div class="bg-white rounded-[3rem] p-10 card-shadow border border-slate-100">
-                            <h3 class="font-black text-xl uppercase mb-8 flex items-center gap-4"><i class="fa-solid fa-map-location-dot text-amber-500"></i> Estado de Obra Residencial</h3>
-                            <div class="h-48 bg-slate-100 rounded-2xl flex items-center justify-center italic text-zinc-400">
-                                <i class="fa-solid fa-satellite-dish text-4xl mr-4 text-amber-500 animate-pulse"></i>
-                                [Sistema GPS Activo: 10 unidades en seguimiento]
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-[3rem] p-10 card-shadow border border-slate-100">
-                            <h3 class="font-black text-xl uppercase mb-8 flex items-center gap-4"><i class="fa-solid fa-gas-pump text-amber-500"></i> Alertas de Consumo</h3>
-                            <div class="space-y-4">
-                                <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden"><div class="bg-amber-500 h-full w-[65%]"></div></div>
-                                <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Depósito Central: 65% (850L Disponibles)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: EQUIPO HUMANO (DIBUJOS ESPECÍFICOS) -->
-                <div id="tab-staff" class="tab-content">
-                    <div class="flex gap-4 bg-zinc-900 p-4 rounded-3xl w-max mb-12 shadow-xl">
-                        <button onclick="filterStaff('all')" class="px-8 py-2.5 rounded-2xl text-xs font-black uppercase text-amber-500">Todo el Equipo</button>
-                        <button onclick="filterStaff('maquinista')" class="px-8 py-2.5 rounded-2xl text-xs font-black uppercase text-white hover:text-amber-500 transition-all">Maquinistas</button>
-                        <button onclick="filterStaff('camionero')" class="px-8 py-2.5 rounded-2xl text-xs font-black uppercase text-white hover:text-amber-500 transition-all">Camioneros</button>
-                        <button onclick="filterStaff('aparejador')" class="px-8 py-2.5 rounded-2xl text-xs font-black uppercase text-white hover:text-amber-500 transition-all">Aparejador</button>
-                    </div>
-                    <div id="staff-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
-                        <!-- Inyectado por JS -->
-                    </div>
-                </div>
-
-                <!-- TAB: RECAMBIOS -->
-                <div id="tab-recambios" class="tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="bg-white p-8 rounded-[3rem] card-shadow border hover:border-amber-500 transition-all group">
-                        <div class="h-44 rounded-2xl machine-draw flex flex-col items-center justify-center mb-6">
-                            <i class="fa-solid fa-circle-nodes text-6xl text-amber-500 mb-2"></i>
-                            <span class="text-[9px] font-bold uppercase text-zinc-400 tracking-tighter">Neumáticos</span>
-                        </div>
-                        <h4 class="font-black text-xl mb-1 uppercase tracking-tighter italic">Neumáticos</h4>
-                        <div class="text-[10px] font-bold text-zinc-400 mb-4 border-b pb-2 flex justify-between"><span>STOCK TOTAL:</span> <span>12 UND</span></div>
-                        <button class="w-full py-3 bg-black text-white rounded-xl text-[10px] font-black uppercase hover:bg-amber-500 transition-all shadow-md">Ver Inventario</button>
-                    </div>
-                    <div class="bg-white p-8 rounded-[3rem] card-shadow border hover:border-amber-500 transition-all group">
-                        <div class="h-44 rounded-2xl machine-draw flex flex-col items-center justify-center mb-6">
-                            <i class="fa-solid fa-droplet text-6xl text-amber-500 mb-2"></i>
-                            <span class="text-[9px] font-bold uppercase text-zinc-400 tracking-tighter">Lubricantes</span>
-                        </div>
-                        <h4 class="font-black text-xl mb-1 uppercase tracking-tighter italic">Aceites / Grasa</h4>
-                        <div class="text-[10px] font-bold text-red-500 mb-4 border-b pb-2 flex justify-between"><span>HIDRÁULICO 46:</span> <span>CRÍTICO</span></div>
-                        <button class="w-full py-3 bg-red-600 text-white rounded-xl text-[10px] font-black uppercase hover:bg-black transition-all shadow-md">Compra Urgente</button>
-                    </div>
-                    <div class="bg-white p-8 rounded-[3rem] card-shadow border hover:border-amber-500 transition-all group">
-                        <div class="h-44 rounded-2xl machine-draw flex flex-col items-center justify-center mb-6">
-                            <i class="fa-solid fa-car-battery text-6xl text-amber-500 mb-2"></i>
-                            <span class="text-[9px] font-bold uppercase text-zinc-400 tracking-tighter">Energía</span>
-                        </div>
-                        <h4 class="font-black text-xl mb-1 uppercase tracking-tighter italic">Baterías</h4>
-                        <div class="text-[10px] font-bold text-zinc-400 mb-4 border-b pb-2 flex justify-between"><span>24V HEAVY DUTY:</span> <span>2 DISP</span></div>
-                        <button class="w-full py-3 bg-black text-white rounded-xl text-[10px] font-black uppercase hover:bg-amber-500 transition-all shadow-md">Ver Taller</button>
-                    </div>
-                    <div class="bg-white p-8 rounded-[3rem] card-shadow border hover:border-amber-500 transition-all group">
-                        <div class="h-44 rounded-2xl machine-draw flex flex-col items-center justify-center mb-6">
-                            <i class="fa-solid fa-filter text-6xl text-amber-500 mb-2"></i>
-                            <span class="text-[9px] font-bold uppercase text-zinc-400 tracking-tighter">Filtros</span>
-                        </div>
-                        <h4 class="font-black text-xl mb-1 uppercase tracking-tighter italic">Filtros</h4>
-                        <div class="text-[10px] font-bold text-zinc-400 mb-4 border-b pb-2 flex justify-between"><span>FILTROS AIRE CAT:</span> <span>4 UND</span></div>
-                        <button class="w-full py-3 bg-black text-white rounded-xl text-[10px] font-black uppercase hover:bg-amber-500 transition-all shadow-md">Revisiones</button>
-                    </div>
-                </div>
-
-                <!-- TAB: ÓRDENES DE TRABAJO -->
-                <div id="tab-ordenes" class="tab-content space-y-8">
-                    <div id="ordenes-list" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <!-- Inyectado por JS -->
-                    </div>
-                </div>
-
-                <!-- TAB: REGISTROS H/KM -->
-                <div id="tab-registros" class="tab-content">
-                    <div class="bg-white rounded-[3.5rem] card-shadow border overflow-hidden">
-                        <table class="w-full text-left">
-                            <thead class="bg-black text-amber-500">
-                                <tr>
-                                    <th class="px-10 py-6 text-[10px] font-black uppercase tracking-widest">Unidad / Operador</th>
-                                    <th class="px-10 py-6 text-[10px] font-black uppercase tracking-widest bg-zinc-900">Lectura Inicial</th>
-                                    <th class="px-10 py-6 text-[10px] font-black uppercase tracking-widest bg-zinc-900 border-l border-zinc-800">Lectura Final</th>
-                                    <th class="px-10 py-6 text-[10px] font-black uppercase tracking-widest">Rendimiento Hoy</th>
-                                </tr>
-                            </thead>
-                            <tbody id="registros-table-body" class="divide-y divide-slate-100 italic">
-                                <!-- Inyectado por JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content flex-1 flex flex-col h-full overflow-hidden relative">
+        <!-- CABECERA ADAPTATIVA -->
+        <header class="header-desktop bg-white border-b px-6 md:px-12 py-4 md:h-24 flex items-center justify-between shadow-sm flex-shrink-0">
+            <div>
+                <h2 id="tab-title" class="text-xl md:text-3xl font-black uppercase text-zinc-900 tracking-tighter">Panel General</h2>
+                <p id="tab-subtitle" class="text-[9px] md:text-[11px] font-bold text-zinc-400 uppercase tracking-[0.2em]">Morales Excavación S.L.</p>
             </div>
-        </main>
-    </div>
+            <button onclick="openModal()" class="bg-black text-white hover:bg-amber-500 hover:text-black font-black px-4 md:px-8 py-2 md:py-4 rounded-xl md:rounded-2xl transition-all shadow-lg text-[10px] md:text-[11px] uppercase tracking-widest flex items-center gap-2">
+                <i class="fa-solid fa-plus-circle"></i> <span class="hidden md:inline">Nuevo Parte Digital</span><span class="md:hidden">Parte</span>
+            </button>
+        </header>
 
-    <!-- MODAL REGISTRO -->
-    <div id="modal-form" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-[100] flex items-center justify-center p-6">
-        <div class="bg-white rounded-[3.5rem] w-full max-w-2xl shadow-2xl overflow-hidden animate-in zoom-in duration-300">
-            <div class="bg-black p-10 flex justify-between items-center">
-                <h3 class="text-amber-500 font-black text-2xl tracking-tighter italic uppercase">Nuevo Parte MEX</h3>
-                <button onclick="closeModal()" class="text-white hover:text-amber-500 transition-all"><i class="fa-solid fa-circle-xmark text-4xl"></i></button>
+        <!-- ZONAS DE CONTENIDO -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-10 bg-slate-50 custom-scrollbar">
+            
+            <!-- TAB: DASHBOARD -->
+            <div id="tab-dashboard" class="tab-content active space-y-6 md:space-y-10">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                    <div class="bg-white p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] card-shadow border border-slate-100">
+                        <p class="text-[9px] font-black text-zinc-400 uppercase mb-2">Maquinistas</p>
+                        <p class="text-2xl md:text-5xl font-black italic">5</p>
+                    </div>
+                    <div class="bg-white p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] card-shadow border border-slate-100">
+                        <p class="text-[9px] font-black text-zinc-400 uppercase mb-2">Camiones</p>
+                        <p class="text-2xl md:text-5xl font-black italic">4</p>
+                    </div>
+                    <div class="bg-white p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] card-shadow border border-slate-100 border-l-4 md:border-l-[10px] border-amber-500">
+                        <p class="text-[9px] font-black text-zinc-400 uppercase mb-2">Alertas</p>
+                        <p class="text-2xl md:text-5xl font-black italic text-amber-500">1</p>
+                    </div>
+                    <div class="bg-zinc-900 p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] shadow-xl text-white">
+                        <p class="text-[9px] font-black text-amber-500 uppercase tracking-widest mb-2">Estado</p>
+                        <p class="text-xl md:text-3xl font-black italic text-green-400">OK</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
+                    <div class="bg-white rounded-2xl md:rounded-[3rem] p-6 md:p-10 card-shadow border">
+                        <h3 class="font-black text-sm md:text-xl uppercase mb-6 flex items-center gap-4"><i class="fa-solid fa-gas-pump text-amber-500"></i> Combustible</h3>
+                        <div class="space-y-4">
+                            <div class="w-full bg-slate-100 h-3 md:h-4 rounded-full overflow-hidden"><div class="bg-amber-500 h-full w-[65%]"></div></div>
+                            <p class="text-[9px] md:text-[10px] font-bold text-zinc-500 uppercase">Tanque Central: 65%</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <form class="p-12 space-y-8">
-                <div class="grid grid-cols-2 gap-8">
+
+            <!-- TAB: EQUIPO HUMANO -->
+            <div id="tab-staff" class="tab-content">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8" id="staff-grid">
+                    <!-- Dinámico -->
+                </div>
+            </div>
+
+            <!-- TAB: RECAMBIOS -->
+            <div id="tab-recambios" class="tab-content grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                <!-- Neumáticos -->
+                <div class="bg-white p-4 md:p-8 rounded-2xl md:rounded-[2.5rem] card-shadow border group text-center">
+                    <i class="fa-solid fa-circle-nodes text-3xl md:text-5xl text-amber-500 mb-4"></i>
+                    <h4 class="font-black text-xs md:text-xl uppercase tracking-tighter">Ruedas</h4>
+                    <p class="text-[8px] md:text-[10px] font-bold text-zinc-400 mb-4 uppercase">12 UND</p>
+                    <button class="w-full py-2 bg-black text-white rounded-lg text-[8px] font-black uppercase">Ver</button>
+                </div>
+                <!-- Aceites -->
+                <div class="bg-white p-4 md:p-8 rounded-2xl md:rounded-[2.5rem] card-shadow border-2 border-red-500 group text-center">
+                    <i class="fa-solid fa-droplet text-3xl md:text-5xl text-red-500 mb-4"></i>
+                    <h4 class="font-black text-xs md:text-xl uppercase tracking-tighter">Aceites</h4>
+                    <p class="text-[8px] md:text-[10px] font-bold text-red-500 mb-4 uppercase italic">CRÍTICO</p>
+                    <button class="w-full py-2 bg-red-600 text-white rounded-lg text-[8px] font-black uppercase">Comprar</button>
+                </div>
+                <!-- Baterías -->
+                <div class="bg-white p-4 md:p-8 rounded-2xl md:rounded-[2.5rem] card-shadow border group text-center">
+                    <i class="fa-solid fa-car-battery text-3xl md:text-5xl text-amber-500 mb-4"></i>
+                    <h4 class="font-black text-xs md:text-xl uppercase tracking-tighter">Baterías</h4>
+                    <p class="text-[8px] md:text-[10px] font-bold text-zinc-400 mb-4 uppercase">2 DISP</p>
+                    <button class="w-full py-2 bg-black text-white rounded-lg text-[8px] font-black uppercase">Ver</button>
+                </div>
+                <!-- Filtros -->
+                <div class="bg-white p-4 md:p-8 rounded-2xl md:rounded-[2.5rem] card-shadow border group text-center">
+                    <i class="fa-solid fa-filter text-3xl md:text-5xl text-amber-500 mb-4"></i>
+                    <h4 class="font-black text-xs md:text-xl uppercase tracking-tighter">Filtros</h4>
+                    <p class="text-[8px] md:text-[10px] font-bold text-zinc-400 mb-4 uppercase">4 UND</p>
+                    <button class="w-full py-2 bg-black text-white rounded-lg text-[8px] font-black uppercase">Ver</button>
+                </div>
+            </div>
+
+            <!-- TAB: ÓRDENES -->
+            <div id="tab-ordenes" class="tab-content space-y-4 md:space-y-8" id="ordenes-list">
+                <!-- Dinámico -->
+            </div>
+
+            <!-- TAB: REGISTROS -->
+            <div id="tab-registros" class="tab-content">
+                <div class="bg-white rounded-xl md:rounded-[3.5rem] card-shadow border overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left min-w-[600px]">
+                        <thead class="bg-black text-amber-500">
+                            <tr>
+                                <th class="px-4 md:px-10 py-4 md:py-6 text-[9px] font-black uppercase">Unidad</th>
+                                <th class="px-4 md:px-10 py-4 md:py-6 text-[9px] font-black uppercase bg-zinc-900">Inicio</th>
+                                <th class="px-4 md:px-10 py-4 md:py-6 text-[9px] font-black uppercase bg-zinc-900">Fin</th>
+                                <th class="px-4 md:px-10 py-4 md:py-6 text-[9px] font-black uppercase">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registros-table-body" class="divide-y divide-slate-100 italic">
+                            <!-- Datos -->
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-center text-[10px] text-zinc-400 mt-4 md:hidden font-bold italic">← Desliza para ver más datos →</p>
+            </div>
+
+        </div>
+
+        <!-- NAVEGACIÓN INFERIOR (SOLO MÓVIL) -->
+        <nav class="mobile-nav fixed bottom-0 left-0 right-0 bg-black h-20 border-t border-zinc-800 px-2 items-center justify-around z-[100] shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
+            <button onclick="switchTab('dashboard')" class="nav-item nav-btn-dashboard text-white flex flex-col items-center gap-1 transition-all">
+                <i class="fa-solid fa-gauge-high text-xl"></i>
+                <span class="text-[8px] font-bold uppercase tracking-widest">Inicio</span>
+            </button>
+            <button onclick="switchTab('staff')" class="nav-item nav-btn-staff text-zinc-500 flex flex-col items-center gap-1 transition-all">
+                <i class="fa-solid fa-users-gear text-xl"></i>
+                <span class="text-[8px] font-bold uppercase tracking-widest">Equipo</span>
+            </button>
+            <button onclick="switchTab('ordenes')" class="nav-item nav-btn-ordenes text-zinc-500 flex flex-col items-center gap-1 transition-all">
+                <i class="fa-solid fa-file-contract text-xl"></i>
+                <span class="text-[8px] font-bold uppercase tracking-widest">Órdenes</span>
+            </button>
+            <button onclick="switchTab('recambios')" class="nav-item nav-btn-recambios text-zinc-500 flex flex-col items-center gap-1 transition-all">
+                <i class="fa-solid fa-boxes-stacked text-xl"></i>
+                <span class="text-[8px] font-bold uppercase tracking-widest">Stock</span>
+            </button>
+            <button onclick="switchTab('registros')" class="nav-item nav-btn-registros text-zinc-500 flex flex-col items-center gap-1 transition-all">
+                <i class="fa-solid fa-clock-rotate-left text-xl"></i>
+                <span class="text-[8px] font-bold uppercase tracking-widest">H/KM</span>
+            </button>
+        </nav>
+    </main>
+
+    <!-- MODAL REGISTRO (MÓVIL ADAPTADO) -->
+    <div id="modal-form" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md z-[200] flex items-center justify-center p-2 md:p-6">
+        <div class="bg-white rounded-3xl md:rounded-[3.5rem] w-full max-w-2xl shadow-2xl overflow-hidden max-h-[95vh] overflow-y-auto custom-scrollbar">
+            <div class="bg-black p-6 md:p-10 flex justify-between items-center sticky top-0 z-10">
+                <h3 class="text-amber-500 font-black text-lg md:text-2xl tracking-tighter italic uppercase">Nuevo Parte MEX</h3>
+                <button onclick="closeModal()" class="text-white hover:text-amber-500"><i class="fa-solid fa-circle-xmark text-3xl md:text-4xl"></i></button>
+            </div>
+            <form class="p-6 md:p-12 space-y-6 md:space-y-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-[10px] font-black text-zinc-400 uppercase mb-3">Asignar Unidad</label>
-                        <select class="w-full bg-slate-100 border-b-4 border-slate-200 p-4 font-black text-sm uppercase outline-none focus:border-amber-500">
-                            <option>CAT 320 - Retroexcavadora</option>
+                        <label class="block text-[10px] font-black text-zinc-400 uppercase mb-2">Unidad</label>
+                        <select class="w-full bg-slate-100 border-b-4 border-slate-200 p-4 font-black text-xs uppercase outline-none focus:border-amber-500">
+                            <option>CAT 320 - Retro</option>
                             <option>Volvo FH16 - Camión</option>
                             <option>JCB 3CX - Mixta</option>
                             <option>HAMM - Apisonadora</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black text-zinc-400 uppercase mb-3">Operario</label>
-                        <select class="w-full bg-slate-100 border-b-4 border-slate-200 p-4 font-black text-sm uppercase outline-none focus:border-amber-500">
+                        <label class="block text-[10px] font-black text-zinc-400 uppercase mb-2">Operario</label>
+                        <select class="w-full bg-slate-100 border-b-4 border-slate-200 p-4 font-black text-xs uppercase outline-none focus:border-amber-500">
                             <option>Ricardo Gómez</option>
                             <option>Josele Ruíz</option>
                             <option>Luis Martínez</option>
                         </select>
                     </div>
                 </div>
-                <div class="bg-slate-50 p-8 rounded-[2rem] border grid grid-cols-2 gap-8">
+                <div class="bg-slate-50 p-6 md:p-8 rounded-2xl md:rounded-[2rem] border grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-[10px] font-black text-blue-600 uppercase mb-2 italic tracking-tighter">Hora/KM Inicio</label>
-                        <input type="number" step="0.01" class="w-full bg-white border rounded-xl p-4 font-black font-mono text-xl text-blue-600 outline-none shadow-inner">
+                        <label class="block text-[9px] font-black text-blue-600 uppercase mb-1">Inicio Jornada</label>
+                        <input type="number" step="0.01" class="w-full bg-white border rounded-xl p-3 font-black font-mono text-lg text-blue-600 outline-none">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black text-red-600 uppercase mb-2 italic tracking-tighter">Hora/KM Cierre</label>
-                        <input type="number" step="0.01" class="w-full bg-white border rounded-xl p-4 font-black font-mono text-xl text-red-600 outline-none shadow-inner">
+                        <label class="block text-[9px] font-black text-red-600 uppercase mb-1">Fin Jornada</label>
+                        <input type="number" step="0.01" class="w-full bg-white border rounded-xl p-3 font-black font-mono text-lg text-red-600 outline-none">
                     </div>
                 </div>
-                <button type="button" onclick="alert('Parte Sincronizado Correctamente')" class="w-full bg-black text-white py-6 rounded-3xl font-black uppercase tracking-[0.3em] hover:bg-amber-500 hover:text-black transition-all shadow-xl">Sincronizar Parte</button>
+                <button type="button" onclick="alert('Parte Sincronizado Correctamente')" class="w-full bg-black text-white py-5 rounded-2xl font-black uppercase tracking-[0.2em] shadow-2xl hover:bg-amber-500 hover:text-black">Sincronizar Parte</button>
             </form>
         </div>
     </div>
 
     <script>
-        // Dibujos SVG personalizados para maquinaria MEX
         const machineIcons = {
-            retro: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="2.5" class="w-24 h-24 text-amber-500"><path d="M10 50h40l5-10h-35l-10 10zM50 40l10-20h20l10 10M15 50a5 5 0 100 10 5 5 0 000-10zM45 50a5 5 0 100 10 5 5 0 000-10zM80 30l10 20M90 50h10v-10h-10z" stroke-linecap="round"/></svg>`,
-            mixta: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="2.5" class="w-24 h-24 text-amber-500"><path d="M20 50h50l5-15h-40M15 35h15l5 10M70 50l10-20M10 35l10 15M25 50a5 5 0 100 10 5 5 0 000-10zM65 50a5 5 0 100 10 5 5 0 000-10z" stroke-linecap="round"/></svg>`,
-            apisonadora: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="2.5" class="w-24 h-24 text-amber-500"><path d="M10 50a15 15 0 1030 0 15 15 0 00-30 0zM40 50h40l5-15h-35M80 50a5 5 0 100 10 5 5 0 000-10z" stroke-linecap="round"/></svg>`,
-            camion: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="2.5" class="w-24 h-24 text-amber-500"><path d="M10 50h80v-20h-50v-10h-30v30zM25 50a5 5 0 100 10 5 5 0 000-10zM75 50a5 5 0 100 10 5 5 0 000-10z" stroke-linecap="round"/></svg>`,
-            casco: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="2.5" class="w-24 h-24 text-amber-500"><path d="M20 50a30 30 0 0160 0M15 50h70" stroke-linecap="round"/></svg>`
+            retro: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="2.5" class="w-12 h-12 md:w-24 md:h-24 text-amber-500"><path d="M10 50h40l5-10h-35l-10 10zM50 40l10-20h20l10 10M15 50a5 5 0 100 10 5 5 0 000-10zM45 50a5 5 0 100 10 5 5 0 000-10zM80 30l10 20M90 50h10v-10h-10z" stroke-linecap="round"/></svg>`,
+            mixta: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="2.5" class="w-12 h-12 md:w-24 md:h-24 text-amber-500"><path d="M20 50h50l5-15h-40M15 35h15l5 10M70 50l10-20M10 35l10 15M25 50a5 5 0 100 10 5 5 0 000-10zM65 50a5 5 0 100 10 5 5 0 000-10z" stroke-linecap="round"/></svg>`,
+            apisonadora: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="2.5" class="w-12 h-12 md:w-24 md:h-24 text-amber-500"><path d="M10 50a15 15 0 1030 0 15 15 0 00-30 0zM40 50h40l5-15h-35M80 50a5 5 0 100 10 5 5 0 000-10z" stroke-linecap="round"/></svg>`,
+            camion: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="2.5" class="w-12 h-12 md:w-24 md:h-24 text-amber-500"><path d="M10 50h80v-20h-50v-10h-30v30zM25 50a5 5 0 100 10 5 5 0 000-10zM75 50a5 5 0 100 10 5 5 0 000-10z" stroke-linecap="round"/></svg>`,
+            casco: `<svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="2.5" class="w-12 h-12 md:w-24 md:h-24 text-amber-500"><path d="M20 50a30 30 0 0160 0M15 50h70" stroke-linecap="round"/></svg>`
         };
 
         const staff = [
-            // Maquinistas
-            { n: "Ricardo Gómez", r: "maquinista", m: "CAT 320 - Retroexcavadora", type: "retro", ot: "Movimiento de tierras - Sector A", status: "En curso" },
-            { n: "Josele Ruíz", r: "maquinista", m: "JCB 3CX - Mixta", type: "mixta", ot: "Zanjeo saneamiento vial", status: "En curso" },
-            { n: "Antonio Ruíz", r: "maquinista", m: "HAMM - Apisonadora", type: "apisonadora", ot: "Compactado de bases Sector B", status: "En curso" },
-            { n: "Manolo Ortiz", r: "maquinista", m: "Motoniveladora G1", type: "mixta", ot: "Perfilado de caminos internos", status: "En curso" },
-            { n: "Paco Jiménez", r: "maquinista", m: "Bulldozer D6", type: "retro", ot: "Empuje de zahorra", status: "Parada preventiva" },
-            // Camioneros
-            { n: "Luis Martínez", r: "camionero", m: "Volvo FH16 (C1)", type: "camion", ot: "Transporte áridos Tarancón", status: "En ruta" },
-            { n: "Miguel Serna", r: "camionero", m: "Dúmper Mercedes", type: "camion", ot: "Carga interna de obra", status: "Cargando" },
-            { n: "Carlos Soria", r: "camionero", m: "Bañera Scania", type: "camion", ot: "Retirada escombros vertedero", status: "En ruta" },
-            { n: "Fernando Rey", r: "camionero", m: "Camión Grúa", type: "camion", ot: "Traslado casetas de obra", status: "Disponible" },
-            // Aparejador
-            { n: "David Morales", r: "aparejador", m: "Dirección de Obra", type: "casco", ot: "Replanteo y control de cotas", status: "Supervisando" }
+            { n: "Ricardo Gómez", r: "maquinista", m: "CAT 320 - Retro", type: "retro", ot: "Mov. tierras - Sector A", status: "En curso" },
+            { n: "Josele Ruíz", r: "maquinista", m: "JCB 3CX - Mixta", type: "mixta", ot: "Zanjeo saneamiento", status: "En curso" },
+            { n: "Antonio Ruíz", r: "maquinista", m: "HAMM - Apisonadora", type: "apisonadora", ot: "Compactado base", status: "En curso" },
+            { n: "Manolo Ortiz", r: "maquinista", m: "Motoniveladora G1", type: "mixta", ot: "Perfilado caminos", status: "En curso" },
+            { n: "Paco Jiménez", r: "maquinista", m: "Bulldozer D6", type: "retro", ot: "Empuje zahorra", status: "Parada" },
+            { n: "Luis Martínez", r: "camionero", m: "Volvo FH16 (C1)", type: "camion", ot: "Trans. áridos Tarancón", status: "En ruta" },
+            { n: "Miguel Serna", r: "camionero", m: "Mercedes Dúmper", type: "camion", ot: "Carga interna", status: "Cargando" },
+            { n: "Carlos Soria", r: "camionero", m: "Bañera Scania", type: "camion", ot: "Retirada escombros", status: "En ruta" },
+            { n: "Fernando Rey", r: "camionero", m: "Camión Grúa", type: "camion", ot: "Traslado casetas", status: "Disponible" },
+            { n: "David Morales", r: "aparejador", m: "Dir. Obra", type: "casco", ot: "Control de cotas", status: "Supervisión" }
         ];
 
         function switchTab(id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-            document.getElementById('nav-' + id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active', 'bg-amber-500', 'text-black'));
+
+            // Activar botón en barra inferior y sidebar
+            const mobileBtns = document.querySelectorAll('.nav-btn-' + id);
+            mobileBtns.forEach(btn => btn.classList.add('active'));
+            
+            const sidebarBtns = document.querySelectorAll('.sidebar-item.nav-btn-' + id);
+            sidebarBtns.forEach(btn => btn.classList.add('active', 'bg-amber-500', 'text-black'));
+
             document.getElementById('tab-' + id).classList.add('active');
             
-            const titles = { dashboard: "Panel General", staff: "Equipo Humano", recambios: "Almacén Recambios", ordenes: "Órdenes de Trabajo", registros: "Control H / KM" };
-            document.getElementById('tab-title').innerText = titles[id];
+            const config = { 
+                dashboard: ["Resumen", "Estado Global"], 
+                staff: ["Equipo Humano", "Personal MEX"], 
+                recambios: ["Almacén", "Stock Crítico"], 
+                ordenes: ["Órdenes", "Tareas Activas"], 
+                registros: ["Registros H/KM", "Control de Jornada"] 
+            };
             
-            if (id === 'staff') renderStaff('all');
+            document.getElementById('tab-title').innerText = config[id][0];
+            document.getElementById('tab-subtitle').innerText = config[id][1] + " - Morales Excavación S.L.";
+            
+            if (id === 'staff') renderStaff();
             if (id === 'ordenes') renderOrders();
             if (id === 'registros') renderRegistros();
         }
 
-        function renderStaff(role) {
+        function renderStaff() {
             const grid = document.getElementById('staff-grid');
-            grid.innerHTML = '';
-            staff.filter(s => role === 'all' || s.r === role).forEach(s => {
-                grid.innerHTML += `
-                    <div class="bg-white p-6 rounded-[3rem] card-shadow border hover:border-amber-500 transition-all flex flex-col items-center">
-                        <div class="w-full h-48 rounded-[2rem] mb-6 machine-draw flex items-center justify-center p-4">
-                            ${machineIcons[s.type] || machineIcons.retro}
-                        </div>
-                        <h4 class="text-xl font-black uppercase tracking-tighter italic text-center text-zinc-800">${s.n}</h4>
-                        <p class="text-[9px] font-black text-amber-500 uppercase tracking-widest mb-4">${s.r}</p>
-                        <div class="w-full bg-slate-50 p-4 rounded-2xl text-center border shadow-inner">
-                            <p class="text-[10px] font-bold text-zinc-400 uppercase mb-1 italic tracking-tighter">${s.m}</p>
-                            <span class="text-[9px] font-black text-green-600 uppercase">Status: ${s.status}</span>
-                        </div>
+            grid.innerHTML = staff.map(s => `
+                <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-[3rem] card-shadow border hover:border-amber-500 transition-all flex flex-col items-center">
+                    <div class="w-full h-24 md:h-48 rounded-xl md:rounded-[2rem] mb-3 md:mb-6 machine-draw flex items-center justify-center p-2">
+                        ${machineIcons[s.type] || machineIcons.retro}
                     </div>
-                `;
-            });
+                    <h4 class="text-[10px] md:text-xl font-black uppercase tracking-tighter italic text-center text-zinc-800">${s.n}</h4>
+                    <p class="text-[7px] md:text-[9px] font-black text-amber-500 uppercase tracking-widest mb-2">${s.r}</p>
+                    <div class="w-full bg-slate-50 p-2 md:p-4 rounded-lg md:rounded-2xl text-center border">
+                        <p class="text-[7px] md:text-[10px] font-bold text-zinc-400 uppercase italic tracking-tighter">${s.m}</p>
+                    </div>
+                </div>
+            `).join('');
         }
 
         function renderOrders() {
-            const container = document.getElementById('ordenes-list');
-            container.innerHTML = '';
-            staff.forEach((s, index) => {
-                const borderClass = s.status.includes('Parada') ? 'border-red-500 bg-red-50/20' : 'border-slate-100';
-                container.innerHTML += `
-                    <div class="bg-white p-8 rounded-[2.5rem] card-shadow border-2 ${borderClass} relative overflow-hidden group hover:scale-[1.01] transition-transform">
-                        <div class="flex flex-col md:flex-row justify-between gap-6">
-                            <div class="space-y-3 flex-1">
-                                <div class="flex items-center gap-4">
-                                    <span class="bg-black text-amber-500 px-4 py-1 rounded-full font-black text-[9px] uppercase tracking-widest italic shadow-lg">ID #${1024 + index}</span>
-                                    <span class="text-zinc-500 text-[9px] font-black uppercase tracking-widest italic">${s.m}</span>
-                                </div>
-                                <h4 class="text-xl font-black italic tracking-tighter text-zinc-900 leading-tight">${s.ot}</h4>
-                                <p class="text-xs font-bold text-zinc-500 flex items-center gap-2"><i class="fa-solid fa-user-gear text-amber-500"></i> Operario: <span class="text-black uppercase tracking-tight">${s.n}</span></p>
+            const container = document.getElementById('tab-ordenes');
+            container.innerHTML = staff.map((s, index) => `
+                <div class="bg-white p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] card-shadow border-2 ${s.status === 'Parada' ? 'border-red-500' : 'border-slate-100'} relative overflow-hidden">
+                    <div class="flex flex-col md:flex-row justify-between gap-4">
+                        <div class="space-y-2 flex-1">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-black text-amber-500 px-3 py-0.5 rounded-full font-black text-[7px] md:text-[9px] uppercase italic">ID #${1024 + index}</span>
+                                <span class="text-zinc-500 text-[7px] md:text-[9px] font-black uppercase">${s.m}</span>
                             </div>
-                            <div class="flex flex-col justify-between items-end">
-                                <span class="bg-white text-zinc-900 px-4 py-1.5 rounded-xl text-[9px] font-black uppercase border-2 border-zinc-100 tracking-widest shadow-sm">${s.status}</span>
-                                <button class="bg-black text-white p-4 rounded-2xl hover:bg-amber-500 hover:text-black transition-all shadow-xl"><i class="fa-solid fa-pen-to-square"></i></button>
-                            </div>
+                            <h4 class="text-xs md:text-xl font-black italic text-zinc-900 leading-tight">${s.ot}</h4>
+                            <p class="text-[9px] md:text-xs font-bold text-zinc-500 uppercase italic">${s.n}</p>
+                        </div>
+                        <div class="flex justify-between items-center md:flex-col md:items-end md:justify-between">
+                            <span class="bg-slate-100 text-zinc-900 px-2 py-1 rounded text-[7px] md:text-[9px] font-black uppercase border tracking-widest">${s.status}</span>
+                            <button class="bg-black text-white p-2 md:p-4 rounded-lg md:rounded-2xl hover:bg-amber-500"><i class="fa-solid fa-chevron-right text-[10px] md:text-base"></i></button>
                         </div>
                     </div>
-                `;
-            });
+                </div>
+            `).join('');
         }
 
         function renderRegistros() {
             const body = document.getElementById('registros-table-body');
             body.innerHTML = `
-                <tr class="hover:bg-amber-50/50 transition-colors">
-                    <td class="px-10 py-8 border-r border-slate-100">
-                        <p class="font-black text-xl tracking-tight">Ricardo Gómez</p>
-                        <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest italic">Unidad: CAT 320 (E1)</p>
+                <tr class="hover:bg-amber-50/50">
+                    <td class="px-4 md:px-10 py-4 md:py-8 border-r">
+                        <p class="font-black text-xs md:text-xl tracking-tight uppercase">Ricardo Gómez</p>
+                        <p class="text-[7px] md:text-[10px] font-bold text-zinc-400 uppercase italic">CAT 320 (E1)</p>
                     </td>
-                    <td class="px-10 py-8 font-mono text-2xl font-black text-blue-600 tracking-tighter italic">1.240,50 H</td>
-                    <td class="px-10 py-8 font-mono text-2xl font-black text-red-600 border-l border-slate-100 tracking-tighter italic">1.248,00 H</td>
-                    <td class="px-10 py-8 font-black text-3xl text-zinc-900 italic tracking-tighter">7,50 H</td>
+                    <td class="px-4 md:px-10 py-4 md:py-8 font-mono text-sm md:text-2xl font-black text-blue-600 italic">1.240,5 H</td>
+                    <td class="px-4 md:px-10 py-4 md:py-8 font-mono text-sm md:text-2xl font-black text-red-600 border-l italic">1.248,0 H</td>
+                    <td class="px-4 md:px-10 py-4 md:py-8 font-black text-base md:text-3xl text-zinc-900 italic tracking-tighter">7,5 H</td>
                 </tr>
-                <tr class="hover:bg-amber-50/50 transition-colors">
-                    <td class="px-10 py-8 border-r border-slate-100">
-                        <p class="font-black text-xl tracking-tight">Luis Martínez</p>
-                        <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest italic">Unidad: Volvo FH16 (C1)</p>
+                <tr class="hover:bg-amber-50/50">
+                    <td class="px-4 md:px-10 py-4 md:py-8 border-r">
+                        <p class="font-black text-xs md:text-xl tracking-tight uppercase">Luis Martínez</p>
+                        <p class="text-[7px] md:text-[10px] font-bold text-zinc-400 uppercase italic">Volvo FH16 (C1)</p>
                     </td>
-                    <td class="px-10 py-8 font-mono text-2xl font-black text-blue-600 tracking-tighter italic">45.230 KM</td>
-                    <td class="px-10 py-8 font-mono text-2xl font-black text-red-600 border-l border-slate-100 tracking-tighter italic">45.420 KM</td>
-                    <td class="px-10 py-8 font-black text-3xl text-zinc-900 italic tracking-tighter">190 KM</td>
+                    <td class="px-4 md:px-10 py-4 md:py-8 font-mono text-sm md:text-2xl font-black text-blue-600 italic">45.230 K</td>
+                    <td class="px-4 md:px-10 py-4 md:py-8 font-mono text-sm md:text-2xl font-black text-red-600 border-l italic">45.420 K</td>
+                    <td class="px-4 md:px-10 py-4 md:py-8 font-black text-base md:text-3xl text-zinc-900 italic tracking-tighter">190 K</td>
                 </tr>
             `;
-        }
-
-        function filterStaff(role) {
-            renderStaff(role);
         }
 
         function openModal() { document.getElementById('modal-form').classList.remove('hidden'); }
