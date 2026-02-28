@@ -1,9 +1,9 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEX - Morales Excavaci√≥n | Sistema Operativo 360¬∞</title>
+    <title>MEX - Morales ExcavaciÛn | Sistema Operativo 360∞</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -39,7 +39,7 @@
             </div>
 
             <nav class="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
-                <p class="text-[10px] text-zinc-600 font-black uppercase mb-3 px-4">Gesti√≥n Central</p>
+                <p class="text-[10px] text-zinc-600 font-black uppercase mb-3 px-4">GestiÛn Central</p>
                 <button onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-item active w-full flex items-center gap-4 px-5 py-3.5 text-sm transition-all hover:bg-zinc-800">
                     <i class="fa-solid fa-gauge-high"></i> Panel General
                 </button>
@@ -47,12 +47,12 @@
                     <i class="fa-solid fa-users-gear"></i> Equipo Humano
                 </button>
                 <button onclick="switchTab('recambios')" id="nav-recambios" class="sidebar-item w-full flex items-center gap-4 px-5 py-3.5 text-sm text-zinc-400 hover:text-white transition-all">
-                    <i class="fa-solid fa-boxes-stacked"></i> Almac√©n Recambios
+                    <i class="fa-solid fa-boxes-stacked"></i> AlmacÈn Recambios
                 </button>
 
                 <p class="text-[10px] text-zinc-600 font-black uppercase mt-8 mb-3 px-4">Control de Campo</p>
                 <button onclick="switchTab('ordenes')" id="nav-ordenes" class="sidebar-item w-full flex items-center gap-4 px-5 py-3.5 text-sm text-zinc-400 hover:text-white transition-all">
-                    <i class="fa-solid fa-file-contract"></i> √ìrdenes de Trabajo
+                    <i class="fa-solid fa-file-contract"></i> ”rdenes de Trabajo
                 </button>
                 <button onclick="switchTab('registros')" id="nav-registros" class="sidebar-item w-full flex items-center gap-4 px-5 py-3.5 text-sm text-zinc-400 hover:text-white transition-all">
                     <i class="fa-solid fa-clock-rotate-left"></i> Registro H / KM
@@ -63,7 +63,7 @@
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center font-black text-black text-xs tracking-tighter">MEX</div>
                     <div class="overflow-hidden">
-                        <p class="text-xs font-black truncate">Kenny Garc√≠a</p>
+                        <p class="text-xs font-black truncate">Kenny GarcÌa</p>
                         <p class="text-[9px] text-amber-500 font-bold uppercase tracking-widest italic">Supervisor</p>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
             <header class="h-24 bg-white border-b px-12 flex items-center justify-between shadow-sm flex-shrink-0">
                 <div>
                     <h2 id="tab-title" class="text-3xl font-black uppercase text-zinc-900 tracking-tighter">Panel General</h2>
-                    <p id="tab-subtitle" class="text-[11px] font-bold text-zinc-400 uppercase tracking-[0.2em]">Morales Excavaci√≥n S.L. - Control Individual</p>
+                    <p id="tab-subtitle" class="text-[11px] font-bold text-zinc-400 uppercase tracking-[0.2em]">Morales ExcavaciÛn S.L. - Control Individual</p>
                 </div>
                 <div class="flex gap-4">
                     <button onclick="openModal()" class="bg-black text-white hover:bg-amber-500 hover:text-black font-black px-8 py-4 rounded-2xl transition-all shadow-2xl text-[11px] uppercase tracking-widest">
@@ -98,12 +98,12 @@
                             <p class="text-5xl font-black italic">4</p>
                         </div>
                         <div class="bg-white p-8 rounded-[2.5rem] card-shadow border border-slate-100 border-l-[10px] border-amber-500">
-                            <p class="text-[10px] font-black text-zinc-400 uppercase mb-3">Supervisi√≥n</p>
+                            <p class="text-[10px] font-black text-zinc-400 uppercase mb-3">SupervisiÛn</p>
                             <p class="text-5xl font-black italic text-amber-500">1</p>
                         </div>
                         <div class="bg-zinc-900 p-8 rounded-[2.5rem] shadow-2xl text-white">
                             <p class="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-3">Eficiencia Operativa</p>
-                            <p class="text-4xl font-black italic text-green-400">√ìPTIMA</p>
+                            <p class="text-4xl font-black italic text-green-400">”PTIMA</p>
                         </div>
                     </div>
 
@@ -119,13 +119,13 @@
                             <h3 class="font-black text-xl uppercase mb-8 flex items-center gap-4"><i class="fa-solid fa-gas-pump text-amber-500"></i> Alertas de Consumo</h3>
                             <div class="space-y-4">
                                 <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden"><div class="bg-amber-500 h-full w-[65%]"></div></div>
-                                <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Dep√≥sito Central: 65% (850L Disponibles)</p>
+                                <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">DepÛsito Central: 65% (850L Disponibles)</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- TAB: EQUIPO HUMANO (DIBUJOS ESPEC√çFICOS) -->
+                <!-- TAB: EQUIPO HUMANO (DIBUJOS ESPECÕFICOS) -->
                 <div id="tab-staff" class="tab-content">
                     <div class="flex gap-4 bg-zinc-900 p-4 rounded-3xl w-max mb-12 shadow-xl">
                         <button onclick="filterStaff('all')" class="px-8 py-2.5 rounded-2xl text-xs font-black uppercase text-amber-500">Todo el Equipo</button>
@@ -143,9 +143,9 @@
                     <div class="bg-white p-8 rounded-[3rem] card-shadow border hover:border-amber-500 transition-all group">
                         <div class="h-44 rounded-2xl machine-draw flex flex-col items-center justify-center mb-6">
                             <i class="fa-solid fa-circle-nodes text-6xl text-amber-500 mb-2"></i>
-                            <span class="text-[9px] font-bold uppercase text-zinc-400 tracking-tighter">Neum√°ticos</span>
+                            <span class="text-[9px] font-bold uppercase text-zinc-400 tracking-tighter">Neum·ticos</span>
                         </div>
-                        <h4 class="font-black text-xl mb-1 uppercase tracking-tighter italic">Neum√°ticos</h4>
+                        <h4 class="font-black text-xl mb-1 uppercase tracking-tighter italic">Neum·ticos</h4>
                         <div class="text-[10px] font-bold text-zinc-400 mb-4 border-b pb-2 flex justify-between"><span>STOCK TOTAL:</span> <span>12 UND</span></div>
                         <button class="w-full py-3 bg-black text-white rounded-xl text-[10px] font-black uppercase hover:bg-amber-500 transition-all shadow-md">Ver Inventario</button>
                     </div>
@@ -155,15 +155,15 @@
                             <span class="text-[9px] font-bold uppercase text-zinc-400 tracking-tighter">Lubricantes</span>
                         </div>
                         <h4 class="font-black text-xl mb-1 uppercase tracking-tighter italic">Aceites / Grasa</h4>
-                        <div class="text-[10px] font-bold text-red-500 mb-4 border-b pb-2 flex justify-between"><span>HIDR√ÅULICO 46:</span> <span>CR√çTICO</span></div>
+                        <div class="text-[10px] font-bold text-red-500 mb-4 border-b pb-2 flex justify-between"><span>HIDR¡ULICO 46:</span> <span>CRÕTICO</span></div>
                         <button class="w-full py-3 bg-red-600 text-white rounded-xl text-[10px] font-black uppercase hover:bg-black transition-all shadow-md">Compra Urgente</button>
                     </div>
                     <div class="bg-white p-8 rounded-[3rem] card-shadow border hover:border-amber-500 transition-all group">
                         <div class="h-44 rounded-2xl machine-draw flex flex-col items-center justify-center mb-6">
                             <i class="fa-solid fa-car-battery text-6xl text-amber-500 mb-2"></i>
-                            <span class="text-[9px] font-bold uppercase text-zinc-400 tracking-tighter">Energ√≠a</span>
+                            <span class="text-[9px] font-bold uppercase text-zinc-400 tracking-tighter">EnergÌa</span>
                         </div>
-                        <h4 class="font-black text-xl mb-1 uppercase tracking-tighter italic">Bater√≠as</h4>
+                        <h4 class="font-black text-xl mb-1 uppercase tracking-tighter italic">BaterÌas</h4>
                         <div class="text-[10px] font-bold text-zinc-400 mb-4 border-b pb-2 flex justify-between"><span>24V HEAVY DUTY:</span> <span>2 DISP</span></div>
                         <button class="w-full py-3 bg-black text-white rounded-xl text-[10px] font-black uppercase hover:bg-amber-500 transition-all shadow-md">Ver Taller</button>
                     </div>
@@ -178,7 +178,7 @@
                     </div>
                 </div>
 
-                <!-- TAB: √ìRDENES DE TRABAJO -->
+                <!-- TAB: ”RDENES DE TRABAJO -->
                 <div id="tab-ordenes" class="tab-content space-y-8">
                     <div id="ordenes-list" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <!-- Inyectado por JS -->
@@ -221,7 +221,7 @@
                         <label class="block text-[10px] font-black text-zinc-400 uppercase mb-3">Asignar Unidad</label>
                         <select class="w-full bg-slate-100 border-b-4 border-slate-200 p-4 font-black text-sm uppercase outline-none focus:border-amber-500">
                             <option>CAT 320 - Retroexcavadora</option>
-                            <option>Volvo FH16 - Cami√≥n</option>
+                            <option>Volvo FH16 - CamiÛn</option>
                             <option>JCB 3CX - Mixta</option>
                             <option>HAMM - Apisonadora</option>
                         </select>
@@ -229,9 +229,9 @@
                     <div>
                         <label class="block text-[10px] font-black text-zinc-400 uppercase mb-3">Operario</label>
                         <select class="w-full bg-slate-100 border-b-4 border-slate-200 p-4 font-black text-sm uppercase outline-none focus:border-amber-500">
-                            <option>Ricardo G√≥mez</option>
-                            <option>Josele Ru√≠z</option>
-                            <option>Luis Mart√≠nez</option>
+                            <option>Ricardo GÛmez</option>
+                            <option>Josele RuÌz</option>
+                            <option>Luis MartÌnez</option>
                         </select>
                     </div>
                 </div>
@@ -262,18 +262,18 @@
 
         const staff = [
             // Maquinistas
-            { n: "Ricardo G√≥mez", r: "maquinista", m: "CAT 320 - Retroexcavadora", type: "retro", ot: "Movimiento de tierras - Sector A", status: "En curso" },
-            { n: "Josele Ru√≠z", r: "maquinista", m: "JCB 3CX - Mixta", type: "mixta", ot: "Zanjeo saneamiento vial", status: "En curso" },
-            { n: "Antonio Ru√≠z", r: "maquinista", m: "HAMM - Apisonadora", type: "apisonadora", ot: "Compactado de bases Sector B", status: "En curso" },
+            { n: "Ricardo GÛmez", r: "maquinista", m: "CAT 320 - Retroexcavadora", type: "retro", ot: "Movimiento de tierras - Sector A", status: "En curso" },
+            { n: "Josele RuÌz", r: "maquinista", m: "JCB 3CX - Mixta", type: "mixta", ot: "Zanjeo saneamiento vial", status: "En curso" },
+            { n: "Antonio RuÌz", r: "maquinista", m: "HAMM - Apisonadora", type: "apisonadora", ot: "Compactado de bases Sector B", status: "En curso" },
             { n: "Manolo Ortiz", r: "maquinista", m: "Motoniveladora G1", type: "mixta", ot: "Perfilado de caminos internos", status: "En curso" },
-            { n: "Paco Jim√©nez", r: "maquinista", m: "Bulldozer D6", type: "retro", ot: "Empuje de zahorra", status: "Parada preventiva" },
+            { n: "Paco JimÈnez", r: "maquinista", m: "Bulldozer D6", type: "retro", ot: "Empuje de zahorra", status: "Parada preventiva" },
             // Camioneros
-            { n: "Luis Mart√≠nez", r: "camionero", m: "Volvo FH16 (C1)", type: "camion", ot: "Transporte √°ridos Taranc√≥n", status: "En ruta" },
-            { n: "Miguel Serna", r: "camionero", m: "D√∫mper Mercedes", type: "camion", ot: "Carga interna de obra", status: "Cargando" },
-            { n: "Carlos Soria", r: "camionero", m: "Ba√±era Scania", type: "camion", ot: "Retirada escombros vertedero", status: "En ruta" },
-            { n: "Fernando Rey", r: "camionero", m: "Cami√≥n Gr√∫a", type: "camion", ot: "Traslado casetas de obra", status: "Disponible" },
+            { n: "Luis MartÌnez", r: "camionero", m: "Volvo FH16 (C1)", type: "camion", ot: "Transporte ·ridos TarancÛn", status: "En ruta" },
+            { n: "Miguel Serna", r: "camionero", m: "D˙mper Mercedes", type: "camion", ot: "Carga interna de obra", status: "Cargando" },
+            { n: "Carlos Soria", r: "camionero", m: "BaÒera Scania", type: "camion", ot: "Retirada escombros vertedero", status: "En ruta" },
+            { n: "Fernando Rey", r: "camionero", m: "CamiÛn Gr˙a", type: "camion", ot: "Traslado casetas de obra", status: "Disponible" },
             // Aparejador
-            { n: "David Morales", r: "aparejador", m: "Direcci√≥n de Obra", type: "casco", ot: "Replanteo y control de cotas", status: "Supervisando" }
+            { n: "David Morales", r: "aparejador", m: "DirecciÛn de Obra", type: "casco", ot: "Replanteo y control de cotas", status: "Supervisando" }
         ];
 
         function switchTab(id) {
@@ -282,7 +282,7 @@
             document.getElementById('nav-' + id).classList.add('active');
             document.getElementById('tab-' + id).classList.add('active');
             
-            const titles = { dashboard: "Panel General", staff: "Equipo Humano", recambios: "Almac√©n Recambios", ordenes: "√ìrdenes de Trabajo", registros: "Control H / KM" };
+            const titles = { dashboard: "Panel General", staff: "Equipo Humano", recambios: "AlmacÈn Recambios", ordenes: "”rdenes de Trabajo", registros: "Control H / KM" };
             document.getElementById('tab-title').innerText = titles[id];
             
             if (id === 'staff') renderStaff('all');
@@ -341,7 +341,7 @@
             body.innerHTML = `
                 <tr class="hover:bg-amber-50/50 transition-colors">
                     <td class="px-10 py-8 border-r border-slate-100">
-                        <p class="font-black text-xl tracking-tight">Ricardo G√≥mez</p>
+                        <p class="font-black text-xl tracking-tight">Ricardo GÛmez</p>
                         <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest italic">Unidad: CAT 320 (E1)</p>
                     </td>
                     <td class="px-10 py-8 font-mono text-2xl font-black text-blue-600 tracking-tighter italic">1.240,50 H</td>
@@ -350,7 +350,7 @@
                 </tr>
                 <tr class="hover:bg-amber-50/50 transition-colors">
                     <td class="px-10 py-8 border-r border-slate-100">
-                        <p class="font-black text-xl tracking-tight">Luis Mart√≠nez</p>
+                        <p class="font-black text-xl tracking-tight">Luis MartÌnez</p>
                         <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest italic">Unidad: Volvo FH16 (C1)</p>
                     </td>
                     <td class="px-10 py-8 font-mono text-2xl font-black text-blue-600 tracking-tighter italic">45.230 KM</td>
